@@ -1,4 +1,4 @@
-class CreateAlipayNotify < ActiveRecord::Migration
+class CreateAlipayNotifies < ActiveRecord::Migration
   def change
     create_table :alipay_notifies do |t|
       t.boolean :verify
