@@ -1,10 +1,4 @@
-class ExportTask
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
-  field :format
-  field :status
-
+class ExportTask < ActiveRecord::Base
   belongs_to :space
   belongs_to :user
 
