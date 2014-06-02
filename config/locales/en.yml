@@ -425,7 +425,7 @@ en:
         pictures: Pictures
         new_article: New Article
         no_articles: No Articles
-  mongoid:
+  activerecord:
     attributes:
       space:
         name: Name
