@@ -1,16 +1,6 @@
-class Article
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Article < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include SpaceToken
-
-  field :title
-  field :body
-  field :urlname
-  field :status, :default => 'draft'
-  field :save_count, :type => Integer, :default => 0
-  field :last_version_save_count, :type => Integer, :default => 0
-  field :published_at, :type => Time
 
   belongs_to :space
   belongs_to :user
