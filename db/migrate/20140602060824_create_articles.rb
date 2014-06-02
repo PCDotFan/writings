@@ -8,6 +8,7 @@ class CreateArticles < ActiveRecord::Migration
       t.integer :save_count, :default => 0
       t.integer :last_version_save_count, :default => 0
       t.datetime :published_at
+      t.string :token
 
       t.references :user
       t.references :space
@@ -15,5 +16,7 @@ class CreateArticles < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :invitations, [:space_id, :token], :unique => true
   end
 end
