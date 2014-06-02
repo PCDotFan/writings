@@ -1,11 +1,4 @@
-class ImportTask
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
-  field :format
-  field :status
-  field :file
-
+class ImportTask < ActiveRecord::Base
   mount_uploader :file, FileUploader
 
   belongs_to :space
