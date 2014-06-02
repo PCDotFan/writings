@@ -11,7 +11,7 @@ class Space< ActiveRecord::Base
   has_many :invitations, :dependent => :delete_all
   has_many :orders, :dependent => :delete_all
   belongs_to :user
-  has_and_belongs_to_many :members, :inverse_of => nil, :class_name => 'User'
+  has_and_belongs_to_many :members, :class_name => 'User'
 
   PLANS = %w(free base)
 

@@ -5,9 +5,6 @@ class User < ActiveRecord::Base
 
   gravtastic :filetype => :png, :size => 100
 
-  attr_accessible :name, :full_name, :description, :email,
-                  :password, :password_confirmation, :locale
-
   has_many :spaces, :dependent => :destroy
 
   has_secure_password
