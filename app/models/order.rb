@@ -1,27 +1,10 @@
-class Order
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
-  field :plan, :type => Symbol
-  field :quantity, :type => Integer
-  field :price, :type => Integer, :default => 0
-  field :discount, :type => Integer, :default => 0
-
+class Order < ActiveRecord::Base
   STATE = %w(opening pending paid completed canceled)
-  field :state, :default => 'opening'
-  field :pending_at, :type => Time
-  field :completed_at, :type => Time
-  field :canceled_at, :type => Time
-  field :paid_at, :type => Time
-  field :start_at, :type => Time
-  field :trade_no
 
   belongs_to :space
   has_many :alipay_notifies
 
   scope :showable, where(:state.ne => 'opening')
-
-  index({ :space_id => 1 })
 
   validates_presence_of :plan, :quantity, :price
   validates_inclusion_of :state, :in => STATE
