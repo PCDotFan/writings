@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   end
 
   def self.find_by_remember_token(token)
-    user = where(:_id => token.split('$').first).first
+    user = where(:id => token.split('$').first).first
     (user && user.remember_token == token) ? user : nil
   end
 
