@@ -1,20 +1,12 @@
-class User
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class User < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include ActiveModel::SecurePassword
   include Gravtastic
 
   gravtastic :filetype => :png, :size => 100
 
-  field :name
-  field :full_name
-  field :description
-  field :email
-  field :password_digest
-  field :password_reset_token
-  field :password_reset_token_created_at, :type => Time
-  field :locale, :default => I18n.locale.to_s
+  attr_accessible :name, :full_name, :description, :email,
+                  :password, :password_confirmation, :locale
 
   has_many :spaces, :dependent => :destroy
 
