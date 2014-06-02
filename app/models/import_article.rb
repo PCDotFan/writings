@@ -1,13 +1,4 @@
-class ImportArticle
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
-  field :title
-  field :body
-  field :urlname
-  field :status
-  field :published_at, :type => Time
-
+class ImportArticle < ActiveRecord::Base
   belongs_to :import_task
 
   def import
