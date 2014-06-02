@@ -1,11 +1,4 @@
-class Attachment
-  include Mongoid::Document
-  include Mongoid::Timestamps::Created
-
-  field :file
-  field :file_size
-  field :token
-
+class Attachment < ActiveRecord::Base
   after_initialize do |user|
     self.token ||= SecureRandom.hex(16)
   end
