@@ -1,6 +1,6 @@
 class Site::ArticlesController < Site::BaseController
   def index
-    @articles = @space.articles.publish.desc(:published_at).page(params[:page]).per(5)
+    @articles = @space.articles.publish.order("published_at DESC").page(params[:page]).per(5)
   end
 
   def show
@@ -13,7 +13,7 @@ class Site::ArticlesController < Site::BaseController
   end
 
   def feed
-    @articles = @space.articles.publish.desc(:published_at).limit(20)
+    @articles = @space.articles.publish.order("published_at DESC").limit(20)
     @feed_title = @space.display_name
     @feed_link = site_root_url
 

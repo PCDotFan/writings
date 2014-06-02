@@ -1,9 +1,9 @@
 class Admin::SpacesController < Admin::BaseController
   def index
     if params[:tab]
-      @spaces = Space.desc(:created_at).in_plan(params[:tab]).page(params[:page]).per(25)
+      @spaces = Space.order("created_at DESC").in_plan(params[:tab]).page(params[:page]).per(25)
     else
-      @spaces = Space.desc(:created_at).page(params[:page]).per(25)
+      @spaces = Space.order("created_at DESC").page(params[:page]).per(25)
     end
   end
 
