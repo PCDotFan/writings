@@ -4,12 +4,12 @@ class Space< ActiveRecord::Base
 
   gravtastic :gravatar_email, :filetype => :png, :size => 100
 
-  has_many :articles, :dependent => :delete
+  has_many :articles, :dependent => :delete_all
   has_many :attachments, :dependent => :destroy
   has_many :export_tasks, :dependent => :destroy
   has_many :import_tasks, :dependent => :destroy
-  has_many :invitations, :dependent => :delete
-  has_many :orders, :dependent => :delete
+  has_many :invitations, :dependent => :delete_all
+  has_many :orders, :dependent => :delete_all
   belongs_to :user
   has_and_belongs_to_many :members, :inverse_of => nil, :class_name => 'User'
 

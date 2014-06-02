@@ -3,7 +3,7 @@ class ImportTask < ActiveRecord::Base
 
   belongs_to :space
   belongs_to :user
-  has_many :import_articles, :dependent => :delete
+  has_many :import_articles, :dependent => :delete_all
 
   validates_presence_of :file
 
