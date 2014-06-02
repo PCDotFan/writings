@@ -17,6 +17,7 @@ gem 'fog', '~> 1.3.1'
 gem 'jbuilder', '~> 1.4.1'
 gem 'dalli', '~> 2.6.4'
 gem 'sidekiq', '~> 2.12.1'
+gem 'sidekiq-throttler'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'pandoc-ruby', '~> 0.7.0'
 gem 'safe_yaml', '~> 0.9.3'
