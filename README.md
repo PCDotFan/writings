@@ -4,7 +4,7 @@ Source code of writings.io.
 
 Thanks to Rei, for his talent to create **Writings** and generosity to open source.
 
-~~ writings.io had been closed on 2013-12-31, and this project will no longer be maintained. ~~ More on http://chloerei.com/writings/ .
+~~writings.io had been closed on 2013-12-31, and this project will no longer be maintained.~~ More on http://chloerei.com/writings/ .
 
 ![writings](https://raw.github.com/chloerei/writings/master/app/assets/images/writings-io-manager.png)
 

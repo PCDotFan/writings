@@ -52,8 +52,14 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.2.1'
   gem 'quiet_assets', '~> 1.0.2'
   gem 'qunit-rails', '~> 0.0.3'
+
+  gem 'sqlite3'
 end
 
 group :test do
   gem 'fakeweb', '~> 1.3.0'
+end
+
+group :production do
+  gem 'pg'
 end

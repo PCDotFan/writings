@@ -1,9 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "sprockets/railtie"
-require "rails/test_unit/railtie"
+require 'rails/all'
 
 Bundler.require(:default, Rails.env)
 
@@ -19,6 +16,7 @@ module Writings
     config.i18n.default_locale = 'zh-CN'
 
     config.generators do |g|
+      g.orm :active_record
       g.test_framework :test_unit, :fixture_replacement => :factory_girl
       g.assets false
       g.helper false
