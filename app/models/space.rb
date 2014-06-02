@@ -1,21 +1,8 @@
-class Space
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Space< ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include Gravtastic
 
   gravtastic :gravatar_email, :filetype => :png, :size => 100
-
-  field :name
-  field :domain
-  field :disqus_shortname
-  field :google_analytics_id
-  field :full_name
-  field :description
-  field :gravatar_email
-  field :plan, :type => Symbol, :default => :free
-  field :plan_expired_at, :type => Time
-  field :storage_used, :default => 0
 
   has_many :articles, :dependent => :delete
   has_many :attachments, :dependent => :destroy
@@ -25,11 +12,6 @@ class Space
   has_many :orders, :dependent => :delete
   belongs_to :user
   has_and_belongs_to_many :members, :inverse_of => nil, :class_name => 'User'
-
-  index({ :user_id => 1 })
-  index({ :name => 1 }, { :unique => true })
-  index({ :domain => 1 }, { :unique => true, :sparse => true})
-  index({ :member_ids => 1 })
 
   PLANS = %w(free base)
 
