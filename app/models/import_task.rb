@@ -53,7 +53,7 @@ class ImportTask
 
   def confirm(ids)
     if ids
-      import_articles.asc(:created_at).where(:id.in => ids).each(&:import)
+      import_articles.order("created_at ASC").where(:id.in => ids).each(&:import)
     end
   end
 end

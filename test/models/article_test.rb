@@ -33,7 +33,7 @@ class ArticleTest < ActiveSupport::TestCase
     assert_difference "article.versions.count" do
       article.create_version :user => other_user
     end
-    assert_equal other_user, article.versions.asc(:created_at).last.user
+    assert_equal other_user, article.versions.order("created_at ASC").last.user
   end
 
   test "should lock article" do

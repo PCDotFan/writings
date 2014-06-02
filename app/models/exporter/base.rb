@@ -18,7 +18,7 @@ class Exporter::Base
   end
 
   def articles
-    space.articles.untrash.asc(:created_at)
+    space.articles.untrash.order("created_at ASC")
   end
 
   def helper
