@@ -49,6 +49,7 @@ group :development, :test do
   gem 'qunit-rails', '~> 0.0.3'
 
   gem 'sqlite3'
+  gem 'pry-rails'
 end
 
 group :test do
