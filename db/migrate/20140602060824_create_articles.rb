@@ -17,6 +17,6 @@ class CreateArticles < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :invitations, [:space_id, :token], :unique => true
+    add_index :articles, [:space_id, :token], :unique => true
   end
 end
