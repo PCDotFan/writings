@@ -1,4 +1,4 @@
-class Space< ActiveRecord::Base
+class Space < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include Gravtastic
 
@@ -10,8 +10,9 @@ class Space< ActiveRecord::Base
   has_many :import_tasks, :dependent => :destroy
   has_many :invitations, :dependent => :delete_all
   has_many :orders, :dependent => :delete_all
-  belongs_to :user
-  has_and_belongs_to_many :members, :class_name => 'User'
+
+  has_many :users_spaces, dependent: :destroy
+  has_many :users, through: :users_spaces
 
   PLANS = %w(free base)
 

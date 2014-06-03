@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140602073123) do
+ActiveRecord::Schema.define(version: 20140603135933) do
 
   create_table "alipay_notifies", force: true do |t|
     t.boolean  "verify"
@@ -29,12 +29,15 @@ ActiveRecord::Schema.define(version: 20140602073123) do
     t.integer  "save_count",              default: 0
     t.integer  "last_version_save_count", default: 0
     t.datetime "published_at"
+    t.string   "token"
     t.integer  "user_id"
     t.integer  "space_id"
     t.integer  "last_edit_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "articles", ["space_id", "token"], name: "index_articles_on_space_id_and_token", unique: true
 
   create_table "attachments", force: true do |t|
     t.string   "file"
@@ -117,12 +120,9 @@ ActiveRecord::Schema.define(version: 20140602073123) do
     t.string   "plan",                default: "free"
     t.datetime "plan_expired_at"
     t.integer  "storage_used",        default: 0
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "spaces", ["user_id"], name: "index_spaces_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -136,6 +136,16 @@ ActiveRecord::Schema.define(version: 20140602073123) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "users_spaces", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "space_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users_spaces", ["space_id"], name: "index_users_spaces_on_space_id"
+  add_index "users_spaces", ["user_id"], name: "index_users_spaces_on_user_id"
 
   create_table "versions", force: true do |t|
     t.string   "title"

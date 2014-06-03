@@ -12,8 +12,6 @@ class CreateSpaces < ActiveRecord::Migration
       t.datetime :plan_expired_at
       t.integer :storage_used, :default => 0
 
-      t.references :user, index: true
-
       t.timestamps
     end
   end

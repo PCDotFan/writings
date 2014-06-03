@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
 
   gravtastic :filetype => :png, :size => 100
 
-  has_many :spaces, :dependent => :destroy
+  has_many :users_spaces, dependent: :destroy
+  has_many :spaces, through: :users_spaces
 
   has_secure_password
 
