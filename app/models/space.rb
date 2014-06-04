@@ -47,10 +47,16 @@ class Space < ActiveRecord::Base
     full_name.present? ? full_name : name
   end
 
-  before_create :add_user_to_members
+  def creator
+    @creator ||= self.users_spaces.creators.map(&:user).first
+  end
 
-  def add_user_to_members
-    self.members << user
+  def add_user(user, role)
+    self.users_spaces.create(user_id: user.id, role: role)
+  end
+
+  def add_creator(user)
+    self.add_user(user, UsersSpace::CREATOR)
   end
 
   def in_plan?(plan)

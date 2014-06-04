@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20140603135933) do
   create_table "users_spaces", force: true do |t|
     t.integer  "user_id"
     t.integer  "space_id"
+    t.integer  "role",       default: 20
     t.datetime "created_at"
     t.datetime "updated_at"
   end

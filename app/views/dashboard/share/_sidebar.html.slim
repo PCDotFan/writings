@@ -10,7 +10,7 @@ li.topbar-nav-item
             '
             = @space.display_name
           ul.dropdown-menu
-            - current_user.member_spaces.each do |space|
+            - current_user.spaces.each do |space|
               li
                 a href=(dashboard_root_path(space))
                   i.icon-user

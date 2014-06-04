@@ -14,7 +14,7 @@ class Dashboard::BaseController < ApplicationController
   end
 
   def require_space_access
-    unless @space.user == current_user or (!@space.in_plan?(:free) && @space.members.include?(current_user))
+    unless @space.creator == current_user or (!@space.in_plan?(:free) && @space.users.include?(current_user))
       raise AccessDenied
     end
   end
@@ -26,6 +26,6 @@ class Dashboard::BaseController < ApplicationController
   end
 
   def is_creator?
-    @space.user == current_user
+    @space.creator == current_user
   end
 end

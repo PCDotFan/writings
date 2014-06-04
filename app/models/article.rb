@@ -13,7 +13,7 @@ class Article < ActiveRecord::Base
   scope :publish, -> { where(:status => 'publish') }
   scope :draft, -> { where(:status => 'draft') }
   scope :trash, -> { where(:status => 'trash') }
-  scope :untrash, -> { where(:status.ne => 'trash') }
+  scope :untrash, -> { where.not(:status => 'trash') }
 
   scope :status, -> status {
     case status
