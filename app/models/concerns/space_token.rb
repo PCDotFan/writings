@@ -10,8 +10,10 @@ module SpaceToken
   end
 
   def set_token
-    key = "#{self.class.collection_name}_next_id"
-    self.token ||= space.inc(key => 1)[key].to_s
+    key = "#{self.class.table_name}_next_id"
+    #space.increment!(key)
+    Space.increment_counter(key, space.id)
+    self.token ||= space[key].to_s
   end
 
   def to_param

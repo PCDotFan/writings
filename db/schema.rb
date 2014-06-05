@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20140603135933) do
     t.string   "plan",                default: "free"
     t.datetime "plan_expired_at"
     t.integer  "storage_used",        default: 0
+    t.integer  "articles_next_id",    default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -152,7 +153,7 @@ ActiveRecord::Schema.define(version: 20140603135933) do
     t.string   "title"
     t.text     "body"
     t.integer  "article_id"
-    t.integer  "user_id"
+    t.integer  "space_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

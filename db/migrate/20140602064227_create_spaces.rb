@@ -11,6 +11,7 @@ class CreateSpaces < ActiveRecord::Migration
       t.string :plan, :default => 'free'
       t.datetime :plan_expired_at
       t.integer :storage_used, :default => 0
+      t.integer :articles_next_id, :default => 0
 
       t.timestamps
     end

@@ -37,11 +37,11 @@ class Article < ActiveRecord::Base
   end
 
   def create_version(options = {})
-    user = options[:user] || self.space
+    space = options[:space] || self.space
 
     versions.create :title => title,
                     :body  => body,
-                    :user  => user
+                    :space  => space
     update_attribute :last_version_save_count, self.save_count
   end
 

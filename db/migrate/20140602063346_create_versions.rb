@@ -5,7 +5,7 @@ class CreateVersions < ActiveRecord::Migration
       t.text :body
 
       t.references :article, index: true
-      t.references :user
+      t.references :space
 
       t.timestamps
     end
