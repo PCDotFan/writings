@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
   belongs_to :space
   has_many :alipay_notifies
 
-  scope :showable, where.not(:state => 'opening')
+  scope :showable, -> { where.not(:state => 'opening') }
 
   validates_presence_of :plan, :quantity, :price
   validates_inclusion_of :state, :in => STATE
