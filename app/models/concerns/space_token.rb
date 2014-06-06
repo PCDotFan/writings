@@ -11,8 +11,8 @@ module SpaceToken
 
   def set_token
     key = "#{self.class.table_name}_next_id"
-    #space.increment!(key)
-    Space.increment_counter(key, space.id)
+    space.increment!(key)
+    #Space.increment_counter(key, space.id)
     self.token ||= space[key].to_s
   end
 

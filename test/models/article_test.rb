@@ -24,21 +24,21 @@ class ArticleTest < ActiveSupport::TestCase
 
   test "should create version" do
     article = create :article
-    user = create :user
+    space = create :space
     assert_difference "article.versions.count" do
-      article.create_version :user => user
+      article.create_version :space => space
     end
 
-    other_user = create :user
+    other_space = create :space
     assert_difference "article.versions.count" do
-      article.create_version :user => other_user
+      article.create_version :space => other_space
     end
-    assert_equal other_user, article.versions.order("created_at ASC").last.user
+    assert_equal other_space, article.versions.order("created_at ASC").last.space
   end
 
   test "should lock article" do
     user = create :user
-    article = create :article, :space_id => user
+    article = create :article, :user => user
     article.lock_by user
     assert article.locked?
     assert article.locked_by?(user)

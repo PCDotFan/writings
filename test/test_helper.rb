@@ -7,7 +7,7 @@ class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 
   def teardown
-    Mongoid.default_session.collections.select{|c| c.name !~ /system/}.each(&:drop)
+    # Mongoid.default_session.collections.select{|c| c.name !~ /system/}.each(&:drop)
     FakeWeb.clean_registry
   end
 end

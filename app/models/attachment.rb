@@ -22,7 +22,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def inc_space_storage_used
-    space.inc(:storage_used => file_size)
+    space.increment!(:storage_used, file_size)
   end
 
   def dec_space_storage_used

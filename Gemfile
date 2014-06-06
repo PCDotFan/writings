@@ -49,7 +49,9 @@ group :development, :test do
   gem 'qunit-rails', '~> 0.0.3'
 
   gem 'sqlite3'
-  gem 'pry-rails'
+  gem 'pry'
+  gem 'pry-remote'
+  gem 'pry-nav'
 end
 
 group :test do

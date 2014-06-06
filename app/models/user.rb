@@ -40,7 +40,9 @@ class User < ActiveRecord::Base
   end
 
   def unset_password_reset_token
-    unset(:password_reset_token, :password_reset_token_created_at)
+    #unset(:password_reset_token, :password_reset_token_created_at)
+    self.password_reset_token = nil
+    self.password_reset_token_created_at = nil
   end
 
   def generate_token

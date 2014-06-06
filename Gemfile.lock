@@ -160,8 +160,11 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pry-rails (0.3.2)
-      pry (>= 0.9.10)
+    pry-nav (0.2.3)
+      pry (~> 0.9.10)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     qunit-rails (0.0.3)
@@ -282,7 +285,9 @@ DEPENDENCIES
   nokogiri (~> 1.5.9)
   pandoc-ruby (~> 0.7.0)
   pg
-  pry-rails
+  pry
+  pry-nav
+  pry-remote
   quiet_assets (~> 1.0.2)
   qunit-rails (~> 0.0.3)
   rack-livereload (~> 0.3.14)
