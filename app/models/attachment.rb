@@ -26,7 +26,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def dec_space_storage_used
-    space.inc(:storage_used => -file_size)
+    space.decrement!(:storage_used, file_size)
   end
 
   def check_space_storage_limit

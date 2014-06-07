@@ -33,7 +33,7 @@ class ArticleTest < ActiveSupport::TestCase
     assert_difference "article.versions.count" do
       article.create_version :space => other_space
     end
-    assert_equal other_space, article.versions.order("created_at ASC").last.space
+    assert_equal other_space, Version.where(:article_id => article.id).order("created_at ASC").last.space
   end
 
   test "should lock article" do

@@ -3,7 +3,8 @@ require 'test_helper'
 class ImportTaskTest < ActiveSupport::TestCase
   def setup
     @user = create :user
-    @space = create :space, :user => @user
+    @space = create :space
+    @users_space = create :users_space, :user => @user, :space => @space
   end
 
   test "should import jekyll" do

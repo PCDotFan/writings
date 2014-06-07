@@ -80,7 +80,7 @@ class Order < ActiveRecord::Base
     space.update_attributes(
       :plan_expired_at => space.plan_expired_at - quantity.months
     )
-    space.orders.where(:start_at.gt => start_at).each do |order|
+    space.orders.where("start_at > ?", start_at).each do |order|
       order.update_attribute :start_at, order.start_at - quantity.months
     end
   end

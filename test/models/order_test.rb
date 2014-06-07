@@ -3,7 +3,7 @@ require 'test_helper'
 class OrderTest < ActiveSupport::TestCase
   def setup
     @space = create :space
-    @order = create :order, :plan => :base, :quantity => 2, :space => @space
+    @order = create :order, :plan => 'base', :quantity => 2, :space => @space
   end
 
   test "init state" do

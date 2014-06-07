@@ -46,7 +46,7 @@ class ImportTask < ActiveRecord::Base
 
   def confirm(ids)
     if ids
-      import_articles.order("created_at ASC").where(:id.in => ids).each(&:import)
+      import_articles.order("created_at ASC").where(:id => ids).each(&:import)
     end
   end
 end
