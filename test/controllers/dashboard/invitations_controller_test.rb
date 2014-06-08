@@ -4,13 +4,13 @@ class Dashboard::InvitationsControllerTest < ActionController::TestCase
   def setup
     @space = create :space, :plan => :base, :plan_expired_at => 1.day.from_now
     @invitation = create :invitation, :space => @space
-    login_as @space.user
+    @space.add_creator(create :user)
+    login_as @space.creator
   end
 
   test "should show invitation by token" do
     get :show, :space_id => @space, :id => @invitation.token
     assert_redirected_to dashboard_root_url(@space)
-
 
     logout
     get :show, :space_id => @space, :id => @invitation.token
@@ -59,26 +59,26 @@ class Dashboard::InvitationsControllerTest < ActionController::TestCase
   test "should accept invitation" do
     login_as create(:user)
     assert_difference "@space.invitations.count", -1 do
-      assert_difference "@space.reload.members.count" do
+      assert_difference "@space.reload.users.count" do
         put :accept, :id => @invitation.token, :space_id => @space, :format => :js
       end
     end
   end
 
   test "members should not accept invitation" do
-    assert_no_difference ["@space.reload.invitations.count", "@space.reload.members.count"] do
+    assert_no_difference ["@space.reload.invitations.count", "@space.reload.users.count"] do
       put :accept, :id => @invitation.token, :space_id => @space, :format => :js
     end
   end
 
   test "should signup and join by invitation" do
-    assert_no_difference ["@space.reload.invitations.count", "User.count", "@space.reload.members.count"] do
+    assert_no_difference ["@space.reload.invitations.count", "User.count", "@space.reload.users.count"] do
       post :join, :id => @invitation.token, :space_id => @space, :user => attributes_for(:user), :format => :js
     end
 
     logout
     assert_difference "@space.reload.invitations.count", -1 do
-      assert_difference ["User.count", "@space.reload.members.count"] do
+      assert_difference ["User.count", "@space.reload.users.count"] do
         post :join, :id => @invitation.token, :space_id => @space, :user => attributes_for(:user), :format => :js
       end
     end

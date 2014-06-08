@@ -4,7 +4,8 @@ class Dashboard::ArticlesControllerTest < ActionController::TestCase
   def setup
     @space = create :space
     @article = create(:article, :space => @space)
-    login_as @space.user
+    @space.add_creator(create :user)
+    login_as @space.creator
 
     request.env["HTTP_REFERER"] = dashboard_root_url(:space_id => @space)
   end
@@ -71,7 +72,7 @@ class Dashboard::ArticlesControllerTest < ActionController::TestCase
       get :index, :space_id => @space
     end
 
-    @space.members << member
+    @space.add_collaborator member
     assert_raise(Dashboard::BaseController::AccessDenied) do
       get :index, :space_id => @space
     end
@@ -84,7 +85,7 @@ class Dashboard::ArticlesControllerTest < ActionController::TestCase
 
   test "should lock article when someone editing" do
     member = create :user
-    @space.members << member
+    @space.add_collaborator member
     @space.update_attributes :plan => :base, :plan_expired_at => 1.day.from_now
     article = create :article, :space => @space
 

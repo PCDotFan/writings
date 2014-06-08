@@ -3,7 +3,8 @@ require 'test_helper'
 class Dashboard::ExportTasksControllerTest < ActionController::TestCase
   def setup
     @space = create :space
-    login_as @space.user
+    @space.add_creator(create :user)
+    login_as @space.creator
   end
 
   test "should create task" do

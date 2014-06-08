@@ -3,8 +3,9 @@ require 'test_helper'
 class Dashboard::OrdersControllerTest < ActionController::TestCase
   def setup
     @user = create :user
-    @space = create :space, :user => @user
-    login_as @user
+    @space = create :space
+    @space.add_creator(@user)
+    login_as @space.creator
   end
 
   test "should get index page" do

@@ -3,7 +3,8 @@ require 'test_helper'
 class Dashboard::AttachmentsControllerTest < ActionController::TestCase
   def setup
     @space = create(:space)
-    login_as @space.user
+    @space.add_creator(create :user)
+    login_as @space.creator
   end
 
   test "should get index" do

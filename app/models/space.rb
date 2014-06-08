@@ -12,7 +12,7 @@ class Space < ActiveRecord::Base
   has_many :orders, :dependent => :delete_all
 
   has_many :users_spaces, dependent: :destroy
-  has_many :users, through: :users_spaces
+  has_many :members, through: :users_spaces, source: :user
 
   PLANS = %w(free base)
 
@@ -57,6 +57,10 @@ class Space < ActiveRecord::Base
 
   def add_creator(user)
     self.add_user(user, UsersSpace::CREATOR)
+  end
+
+  def add_collaborator(user)
+    self.add_user(user, UsersSpace::COLLABORATOR)
   end
 
   def in_plan?(plan)

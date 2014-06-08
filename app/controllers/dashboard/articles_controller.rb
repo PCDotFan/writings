@@ -125,7 +125,7 @@ class Dashboard::ArticlesController < Dashboard::BaseController
   end
 
   def find_articles
-    @articles = @space.articles.where(:token.in => params[:ids])
+    @articles = @space.articles.where(:token => params[:ids])
   end
 
   def article_params
