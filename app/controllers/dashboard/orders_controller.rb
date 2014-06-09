@@ -10,7 +10,7 @@ class Dashboard::OrdersController < Dashboard::BaseController
   end
 
   def create
-    @order = @space.orders.new order_param.merge(:plan => :base, :price => 10)
+    @order = @space.orders.new order_param.merge(:plan => Space::BASE, :price => 10)
 
     case @order.quantity
     when 6

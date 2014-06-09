@@ -3,7 +3,7 @@ class Dashboard::VersionsController < Dashboard::BaseController
   before_filter :check_lock_status, :only => [:restore]
 
   def index
-    if @space.in_plan?(:free)
+    if @space.in_plan?(Space::FREE)
       @versions = @article.versions.includes(:user).page(1).limit(5)
     else
       @versions = @article.versions.includes(:user).page(params[:page]).per(20)

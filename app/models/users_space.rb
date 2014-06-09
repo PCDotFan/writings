@@ -1,5 +1,5 @@
 class UsersSpace < ActiveRecord::Base
-  include Writings::Role
+  include Enum::Role
 
   belongs_to :user
   belongs_to :space

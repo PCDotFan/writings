@@ -26,7 +26,7 @@ class Site::ArticlesControllerTest < ActionController::TestCase
   end
 
   test "should redirect to domain if no free" do
-    @space.update_attributes :domain => 'custom.domain', :plan => :base, :plan_expired_at => 1.day.from_now
+    @space.update_attributes :domain => 'custom.domain', :plan => Enum::Plan::BASE, :plan_expired_at => 1.day.from_now
     @request.host = 'custom.domain'
     get :index
     assert_response :success, @response.body

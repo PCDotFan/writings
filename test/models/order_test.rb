@@ -3,7 +3,7 @@ require 'test_helper'
 class OrderTest < ActiveSupport::TestCase
   def setup
     @space = create :space
-    @order = create :order, :plan => 'base', :quantity => 2, :space => @space
+    @order = create :order, :plan => Enum::Plan::BASE, :quantity => 2, :space => @space
   end
 
   test "init state" do
@@ -54,7 +54,7 @@ class OrderTest < ActiveSupport::TestCase
 
   test "should add_plan if plan exists" do
     time = 1.day.from_now
-    @space.update_attributes :plan => :base, :plan_expired_at => time
+    @space.update_attributes :plan => Enum::Plan::BASE, :plan_expired_at => time
     assert_difference "@space.plan_expired_at", @order.quantity.months do
       @order.add_plan
     end

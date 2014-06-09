@@ -1,6 +1,7 @@
 class Space < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include Gravtastic
+  include Enum::Plan
 
   gravtastic :gravatar_email, :filetype => :png, :size => 100
 
@@ -14,15 +15,13 @@ class Space < ActiveRecord::Base
   has_many :users_spaces, dependent: :destroy
   has_many :members, through: :users_spaces, source: :user
 
-  PLANS = %w(free base)
-
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false}, :format => {:with => /\A[a-z0-9-]+\z/, :message => I18n.t('errors.messages.space_name') }, :length => {:in => 4..20}
   validates :domain, :format => {:with => /\A[a-zA-Z0-9_\-.]+\z/}, :uniqueness => {:case_sensitive => false}, :allow_blank => true
 
   validate :except_host
 
   scope :in_plan, -> plan {
-    if plan.to_s == 'free'
+    if plan.to_s == FREE
       scoped.or({:plan => plan}, {:plan_expired_at.lt => Time.now})
     else
       where(:plan => plan, :plan_expired_at.gt => Time.now)
@@ -64,7 +63,7 @@ class Space < ActiveRecord::Base
   end
 
   def in_plan?(plan)
-    if plan == :free
+    if plan == FREE
       self.plan == plan || plan_expired_at.blank? || plan_expired_at < Time.now
     else
       self.plan == plan && plan_expired_at.present? && plan_expired_at > Time.now
@@ -74,7 +73,7 @@ class Space < ActiveRecord::Base
   def storage_limit
     if plan_expired_at.present? && plan_expired_at > Time.now
       case plan
-      when :base
+      when BASE
         1.gigabytes
       else
         10.megabytes
@@ -87,7 +86,7 @@ class Space < ActiveRecord::Base
   def version_limit
     if plan_expired_at.present? && plan_expired_at > Time.now
       case plan
-      when :base
+      when BASE
         50
       else
         5
@@ -98,6 +97,6 @@ class Space < ActiveRecord::Base
   end
 
   def domain_enabled?
-    !in_plan?(:free)
+    !in_plan?(FREE)
   end
 end

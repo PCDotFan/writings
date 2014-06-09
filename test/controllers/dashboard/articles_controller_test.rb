@@ -77,7 +77,7 @@ class Dashboard::ArticlesControllerTest < ActionController::TestCase
       get :index, :space_id => @space
     end
 
-    @space.update_attributes :plan => :base, :plan_expired_at => 1.day.from_now
+    @space.update_attributes :plan => Enum::Plan::BASE, :plan_expired_at => 1.day.from_now
     assert_nothing_raised do
       get :index, :space_id => @space
     end
@@ -86,7 +86,7 @@ class Dashboard::ArticlesControllerTest < ActionController::TestCase
   test "should lock article when someone editing" do
     member = create :user
     @space.add_collaborator member
-    @space.update_attributes :plan => :base, :plan_expired_at => 1.day.from_now
+    @space.update_attributes :plan => Enum::Plan::BASE, :plan_expired_at => 1.day.from_now
     article = create :article, :space => @space
 
     put :update, :space_id => @space, :id => article, :article => { :title => 'change', :save_count => article.reload.save_count + 1 }, :format => :json

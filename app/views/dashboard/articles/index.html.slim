@@ -34,7 +34,7 @@
       li.topbar-nav-item.hide-on-tablet class=('actived' if params[:status] == 'publish')
         a href=(dashboard_root_path(:status => 'publish'))
           = t '.published'
-      - unless @space.in_plan?(:free)
+      - unless @space.in_plan?(Space::FREE)
         li.topbar-nav-item.show-on-tablet.hide-on-searching
           a.search-toggle
             i.icon-search
@@ -52,7 +52,7 @@
           span.hide-on-small-screen
             '
             = t '.view'
-      - if @space.in_plan?(:free)
+      - if @space.in_plan?(Space::FREE)
         li.topbar-nav-item
           a href=(dashboard_billing_path)
             i.icon-level-up

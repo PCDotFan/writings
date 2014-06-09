@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Dashboard::MembersControllerTest < ActionController::TestCase
   def setup
-    @space = create :space, :plan => :base, :plan_expired_at => 1.day.from_now
+    @space = create :space, :plan => Enum::Plan::BASE, :plan_expired_at => 1.day.from_now
     @space.add_creator(create :user)
     login_as @space.creator
   end
@@ -21,7 +21,7 @@ class Dashboard::MembersControllerTest < ActionController::TestCase
   end
 
   test "shuold not destroy if in plan free" do
-    @space.update_attribute :plan, :free
+    @space.update_attribute :plan, Enum::Plan::FREE
     member = create :user
     @space.members << member
     assert_no_difference "@space.reload.members.count", -1 do
