@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new user_params
+    @user.email.downcase!
     if @user.save
       login_as @user
     end

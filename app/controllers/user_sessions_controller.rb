@@ -13,7 +13,7 @@ class UserSessionsController < ApplicationController
       login = params[:login].strip
 
       user = if login.include?('@')
-               User.where(:email => /^#{Regexp.escape login}$/i).first
+               User.where(:email => login.downcase).first
              else
                User.where(:name => login.downcase).first
              end
