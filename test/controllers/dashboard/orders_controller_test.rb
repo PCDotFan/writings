@@ -2,9 +2,8 @@ require 'test_helper'
 
 class Dashboard::OrdersControllerTest < ActionController::TestCase
   def setup
-    @user = create :user
     @space = create :space
-    @space.add_creator(@user)
+    @user = @space.creator
     login_as @space.creator
   end
 

@@ -4,7 +4,6 @@ class Dashboard::ArticlesControllerTest < ActionController::TestCase
   def setup
     @space = create :space
     @article = create(:article, :space => @space)
-    @space.add_creator(create :user)
     login_as @space.creator
 
     request.env["HTTP_REFERER"] = dashboard_root_url(:space_id => @space)

@@ -3,7 +3,6 @@ require 'test_helper'
 class Dashboard::MembersControllerTest < ActionController::TestCase
   def setup
     @space = create :space, :plan => Enum::Plan::BASE, :plan_expired_at => 1.day.from_now
-    @space.add_creator(create :user)
     login_as @space.creator
   end
 

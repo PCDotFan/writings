@@ -3,7 +3,6 @@ require 'test_helper'
 class Dashboard::ExportTasksControllerTest < ActionController::TestCase
   def setup
     @space = create :space
-    @space.add_creator(create :user)
     login_as @space.creator
   end
 
