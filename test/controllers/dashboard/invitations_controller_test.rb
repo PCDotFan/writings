@@ -2,15 +2,14 @@ require 'test_helper'
 
 class Dashboard::InvitationsControllerTest < ActionController::TestCase
   def setup
-    @space = create :space, :plan => :base, :plan_expired_at => 1.day.from_now
+    @space = create :space, :plan => Enum::Plan::BASE, :plan_expired_at => 1.day.from_now
     @invitation = create :invitation, :space => @space
-    login_as @space.user
+    login_as @space.creator
   end
 
   test "should show invitation by token" do
     get :show, :space_id => @space, :id => @invitation.token
     assert_redirected_to dashboard_root_url(@space)
-
 
     logout
     get :show, :space_id => @space, :id => @invitation.token
@@ -33,12 +32,12 @@ class Dashboard::InvitationsControllerTest < ActionController::TestCase
   end
 
   test "should not create invitation if in plan free" do
-    @space.update_attribute :plan, :free
+    @space.update_attribute :plan, Space::FREE
     assert_no_difference "@space.invitations.count" do
       post :create, :emails => [attributes_for(:invitation)[:email]], :space_id => @space, :format => :js
     end
 
-    @space.update_attributes :plan => :base, :plan_expired_at => 1.day.ago
+    @space.update_attributes :plan => Enum::Plan::BASE, :plan_expired_at => 1.day.ago
     assert_no_difference "@space.invitations.count" do
       post :create, :emails => [attributes_for(:invitation)[:email]], :space_id => @space, :format => :js
     end

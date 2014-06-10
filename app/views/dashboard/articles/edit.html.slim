@@ -27,7 +27,7 @@
         .scrollable
           nav
             ul#versions
-          - if @space.in_plan?(:free)
+          - if @space.in_plan?(Space::FREE)
             .message
               = t '.version_limit'
               = link_to t('.need_more_version'), dashboard_billing_path

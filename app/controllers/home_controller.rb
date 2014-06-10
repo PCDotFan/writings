@@ -6,7 +6,8 @@ class HomeController < ApplicationController
 
   def logined_redirect
     if logined?
-      if space = current_user.spaces.asc(:created_at).first
+      #binding.pry
+      if space = current_user.spaces.order("created_at ASC").first
         redirect_to dashboard_root_path(space)
       else
         redirect_to new_space_path

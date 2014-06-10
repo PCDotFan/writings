@@ -4,11 +4,11 @@ class Dashboard::ArticlesController < Dashboard::BaseController
   before_filter :check_lock_status, :only => [:update]
 
   def index
-    @articles = @space.articles.desc(:updated_at).page(params[:page]).per(15).untrash
+    @articles = @space.articles.order("updated_at DESC").page(params[:page]).per(15).untrash
 
     if params[:status].present?
       @articles = @articles.status(params[:status])
-    elsif !@space.in_plan?(:free) && params[:query].present?
+    elsif !@space.in_plan?(Space::FREE) && params[:query].present?
       query = params[:query].split.map { |string| Regexp.escape string }[0..2].join '|'
       @articles = @articles.where(:title => /#{query}/i)
     end
@@ -20,7 +20,7 @@ class Dashboard::ArticlesController < Dashboard::BaseController
   end
 
   def trashed
-    @articles = @space.articles.desc(:updated_at).page(params[:page]).per(15).status('trash')
+    @articles = @space.articles.order("updated_at DESC").page(params[:page]).per(15).status('trash')
   end
 
   def show
@@ -125,7 +125,7 @@ class Dashboard::ArticlesController < Dashboard::BaseController
   end
 
   def find_articles
-    @articles = @space.articles.where(:token.in => params[:ids])
+    @articles = @space.articles.where(:token => params[:ids])
   end
 
   def article_params

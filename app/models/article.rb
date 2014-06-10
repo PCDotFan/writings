@@ -1,29 +1,19 @@
-class Article
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Article < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include SpaceToken
-
-  field :title
-  field :body
-  field :urlname
-  field :status, :default => 'draft'
-  field :save_count, :type => Integer, :default => 0
-  field :last_version_save_count, :type => Integer, :default => 0
-  field :published_at, :type => Time
 
   belongs_to :space
   belongs_to :user
   belongs_to :last_edit_user, :class_name => 'User'
 
-  has_many :versions, :order => [:created_at, :desc]
+  has_many :versions, -> { order('created_at DESC') }
 
   validates :urlname, :format => { :with => /\A[a-zA-Z0-9-]+\z/, :message => I18n.t('urlname_valid_message'), :allow_blank => true }
 
   scope :publish, -> { where(:status => 'publish') }
   scope :draft, -> { where(:status => 'draft') }
   scope :trash, -> { where(:status => 'trash') }
-  scope :untrash, -> { where(:status.ne => 'trash') }
+  scope :untrash, -> { where.not(:status => 'trash') }
 
   scope :status, -> status {
     case status
@@ -47,11 +37,11 @@ class Article
   end
 
   def create_version(options = {})
-    user = options[:user] || self.space
+    space = options[:space] || self.space
 
     versions.create :title => title,
                     :body  => body,
-                    :user  => user
+                    :space  => space
     update_attribute :last_version_save_count, self.save_count
   end
 

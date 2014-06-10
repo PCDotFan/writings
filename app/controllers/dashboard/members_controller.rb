@@ -12,7 +12,7 @@ class Dashboard::MembersController < Dashboard::BaseController
   private
 
   def require_plan
-    if @space.in_plan?(:free)
+    if @space.in_plan?(Space::FREE)
       render :js => "Turbolinks.visit('#{dashboard_members_url(@space)}');"
     end
   end

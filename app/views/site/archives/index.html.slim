@@ -13,7 +13,7 @@ section#archives
         '
         = t '.archives'
       ul
-        - @space.articles.publish.desc(:published_at).each do |article|
+        - @space.articles.publish.order("published_at DESC").each do |article|
           li
             span.date
               = l article.published_at.to_date

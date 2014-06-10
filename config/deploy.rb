@@ -4,12 +4,12 @@ require 'sidekiq/capistrano'
 require 'bundler/capistrano'
 
 set :application, "writings.io"
-set :repository,  "git@github.com:chloerei/writings.git"
+set :repository,  "git@github.com:hutusi/writings.git"
 set :scm, "git"
 set :branch, "master"
 
-set :user, "rei"
-set :deploy_to, "/home/rei/#{application}"
+set :user, "hutusi"
+set :deploy_to, "/home/hutusi/#{application}"
 set :use_sudo, false
 
 role :web, "writings.io"

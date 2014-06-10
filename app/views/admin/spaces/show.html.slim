@@ -26,7 +26,7 @@ section#user-info
     = @space.articles.trash.count
   .field
     label 创建者
-    = link_to @space.user.name, admin_user_path(@space.user)
+    = link_to @space.creator.name, admin_user_path(@space.creator)
   .field
     label 成员
     ul

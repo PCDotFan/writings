@@ -1,27 +1,10 @@
-class Order
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
-  field :plan, :type => Symbol
-  field :quantity, :type => Integer
-  field :price, :type => Integer, :default => 0
-  field :discount, :type => Integer, :default => 0
-
+class Order < ActiveRecord::Base
   STATE = %w(opening pending paid completed canceled)
-  field :state, :default => 'opening'
-  field :pending_at, :type => Time
-  field :completed_at, :type => Time
-  field :canceled_at, :type => Time
-  field :paid_at, :type => Time
-  field :start_at, :type => Time
-  field :trade_no
 
   belongs_to :space
   has_many :alipay_notifies
 
-  scope :showable, where(:state.ne => 'opening')
-
-  index({ :space_id => 1 })
+  scope :showable, -> { where.not(:state => 'opening') }
 
   validates_presence_of :plan, :quantity, :price
   validates_inclusion_of :state, :in => STATE
@@ -97,7 +80,7 @@ class Order
     space.update_attributes(
       :plan_expired_at => space.plan_expired_at - quantity.months
     )
-    space.orders.where(:start_at.gt => start_at).each do |order|
+    space.orders.where("start_at > ?", start_at).each do |order|
       order.update_attribute :start_at, order.start_at - quantity.months
     end
   end

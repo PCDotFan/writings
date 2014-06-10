@@ -12,7 +12,7 @@ class Site::AuthorsControllerTest < ActionController::TestCase
   end
 
   test "get author page" do
-    get :show, :id => @space.user
+    get :show, :id => @space.creator
     assert_response :success, @response.body
   end
 end

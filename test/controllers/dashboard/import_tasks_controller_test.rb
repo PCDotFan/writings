@@ -3,7 +3,7 @@ require 'test_helper'
 class Dashboard::ImportTasksControllerTest < ActionController::TestCase
   def setup
     @space = create :space
-    login_as @space.user
+    login_as @space.creator
   end
 
   test "should create task" do
@@ -16,7 +16,7 @@ class Dashboard::ImportTasksControllerTest < ActionController::TestCase
   end
 
   test "should confirm articles" do
-    import_task = create :import_task, :space => @space, :user => @space.user
+    import_task = create :import_task, :space => @space, :user => @space.creator
     import_task.import
 
     get :show, :space_id => @space, :id => import_task

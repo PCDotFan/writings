@@ -1,11 +1,4 @@
-class Attachment
-  include Mongoid::Document
-  include Mongoid::Timestamps::Created
-
-  field :file
-  field :file_size
-  field :token
-
+class Attachment < ActiveRecord::Base
   after_initialize do |user|
     self.token ||= SecureRandom.hex(16)
   end
@@ -29,11 +22,11 @@ class Attachment
   end
 
   def inc_space_storage_used
-    space.inc(:storage_used => file_size)
+    space.increment!(:storage_used, file_size)
   end
 
   def dec_space_storage_used
-    space.inc(:storage_used => -file_size)
+    space.decrement!(:storage_used, file_size)
   end
 
   def check_space_storage_limit

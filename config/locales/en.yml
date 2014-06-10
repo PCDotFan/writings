@@ -425,7 +425,7 @@ en:
         pictures: Pictures
         new_article: New Article
         no_articles: No Articles
-  mongoid:
+  activerecord:
     attributes:
       space:
         name: Name
@@ -461,7 +461,7 @@ en:
       index:
         continue_reading: Continue Reading
         home: Home
-        about: 关于
+        about: About
         authors: Authors
         archives: Archives
       show:

@@ -1,17 +1,9 @@
-class Invitation
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Invitation < ActiveRecord::Base
   include Gravtastic
 
   gravtastic :filetype => :png, :size => 100
 
-  field :token
-  field :email
-  field :message
-
   belongs_to :space
-
-  index({ :space_id => 1, :token => 1 }, { :unique => true })
 
   validates :email, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :space_id }, :format => {:with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/}
 

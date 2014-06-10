@@ -1,37 +1,19 @@
-class Space
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Space < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include Gravtastic
+  include Enum::Plan
 
   gravtastic :gravatar_email, :filetype => :png, :size => 100
 
-  field :name
-  field :domain
-  field :disqus_shortname
-  field :google_analytics_id
-  field :full_name
-  field :description
-  field :gravatar_email
-  field :plan, :type => Symbol, :default => :free
-  field :plan_expired_at, :type => Time
-  field :storage_used, :default => 0
-
-  has_many :articles, :dependent => :delete
+  has_many :articles, :dependent => :delete_all
   has_many :attachments, :dependent => :destroy
   has_many :export_tasks, :dependent => :destroy
   has_many :import_tasks, :dependent => :destroy
-  has_many :invitations, :dependent => :delete
-  has_many :orders, :dependent => :delete
-  belongs_to :user
-  has_and_belongs_to_many :members, :inverse_of => nil, :class_name => 'User'
+  has_many :invitations, :dependent => :delete_all
+  has_many :orders, :dependent => :delete_all
 
-  index({ :user_id => 1 })
-  index({ :name => 1 }, { :unique => true })
-  index({ :domain => 1 }, { :unique => true, :sparse => true})
-  index({ :member_ids => 1 })
-
-  PLANS = %w(free base)
+  has_many :users_spaces, dependent: :destroy
+  has_many :members, through: :users_spaces, source: :user
 
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false}, :format => {:with => /\A[a-z0-9-]+\z/, :message => I18n.t('errors.messages.space_name') }, :length => {:in => 4..20}
   validates :domain, :format => {:with => /\A[a-zA-Z0-9_\-.]+\z/}, :uniqueness => {:case_sensitive => false}, :allow_blank => true
@@ -39,7 +21,7 @@ class Space
   validate :except_host
 
   scope :in_plan, -> plan {
-    if plan.to_s == 'free'
+    if plan.to_s == FREE
       scoped.or({:plan => plan}, {:plan_expired_at.lt => Time.now})
     else
       where(:plan => plan, :plan_expired_at.gt => Time.now)
@@ -64,14 +46,24 @@ class Space
     full_name.present? ? full_name : name
   end
 
-  before_create :add_user_to_members
+  def creator
+    @creator ||= self.users_spaces.creators.map(&:user).first
+  end
 
-  def add_user_to_members
-    self.members << user
+  def add_user(user, role)
+    self.users_spaces.create(user_id: user.id, role: role)
+  end
+
+  def add_creator(user)
+    self.add_user(user, UsersSpace::CREATOR)
+  end
+
+  def add_collaborator(user)
+    self.add_user(user, UsersSpace::COLLABORATOR)
   end
 
   def in_plan?(plan)
-    if plan == :free
+    if plan == FREE
       self.plan == plan || plan_expired_at.blank? || plan_expired_at < Time.now
     else
       self.plan == plan && plan_expired_at.present? && plan_expired_at > Time.now
@@ -81,7 +73,7 @@ class Space
   def storage_limit
     if plan_expired_at.present? && plan_expired_at > Time.now
       case plan
-      when :base
+      when BASE
         1.gigabytes
       else
         10.megabytes
@@ -94,7 +86,7 @@ class Space
   def version_limit
     if plan_expired_at.present? && plan_expired_at > Time.now
       case plan
-      when :base
+      when BASE
         50
       else
         5
@@ -105,6 +97,6 @@ class Space
   end
 
   def domain_enabled?
-    !in_plan?(:free)
+    !in_plan?(FREE)
   end
 end

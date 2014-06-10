@@ -1,16 +1,9 @@
-class ImportTask
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
-  field :format
-  field :status
-  field :file
-
+class ImportTask < ActiveRecord::Base
   mount_uploader :file, FileUploader
 
   belongs_to :space
   belongs_to :user
-  has_many :import_articles, :dependent => :delete
+  has_many :import_articles, :dependent => :delete_all
 
   validates_presence_of :file
 
@@ -53,7 +46,7 @@ class ImportTask
 
   def confirm(ids)
     if ids
-      import_articles.asc(:created_at).where(:id.in => ids).each(&:import)
+      import_articles.order("created_at ASC").where(:id => ids).each(&:import)
     end
   end
 end

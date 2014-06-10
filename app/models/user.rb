@@ -1,22 +1,12 @@
-class User
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class User < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include ActiveModel::SecurePassword
   include Gravtastic
 
   gravtastic :filetype => :png, :size => 100
 
-  field :name
-  field :full_name
-  field :description
-  field :email
-  field :password_digest
-  field :password_reset_token
-  field :password_reset_token_created_at, :type => Time
-  field :locale, :default => I18n.locale.to_s
-
-  has_many :spaces, :dependent => :destroy
+  has_many :users_spaces, dependent: :destroy
+  has_many :spaces, through: :users_spaces
 
   has_secure_password
 
@@ -38,7 +28,7 @@ class User
   end
 
   def self.find_by_remember_token(token)
-    user = where(:_id => token.split('$').first).first
+    user = where(:id => token.split('$').first).first
     (user && user.remember_token == token) ? user : nil
   end
 
@@ -50,7 +40,10 @@ class User
   end
 
   def unset_password_reset_token
-    unset(:password_reset_token, :password_reset_token_created_at)
+    #unset(:password_reset_token, :password_reset_token_created_at)
+    self.password_reset_token = nil
+    self.password_reset_token_created_at = nil
+    self.save
   end
 
   def generate_token

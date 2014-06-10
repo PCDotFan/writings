@@ -2,7 +2,7 @@ class Dashboard::OrdersController < Dashboard::BaseController
   skip_before_filter :require_logined, :require_space_access, :verify_authenticity_token, :only => [:alipay_notify]
 
   def index
-    @orders = @space.orders.showable.desc(:created_at)
+    @orders = @space.orders.showable.order("created_at DESC")
   end
 
   def new
@@ -10,7 +10,7 @@ class Dashboard::OrdersController < Dashboard::BaseController
   end
 
   def create
-    @order = @space.orders.new order_param.merge(:plan => :base, :price => 10)
+    @order = @space.orders.new order_param.merge(:plan => Space::BASE, :price => 10)
 
     case @order.quantity
     when 6

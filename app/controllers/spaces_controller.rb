@@ -8,6 +8,7 @@ class SpacesController < ApplicationController
   def create
     @space = current_user.spaces.new space_params
     @space.save
+    @space.add_creator current_user
   end
 
   private

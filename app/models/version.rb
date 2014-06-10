@@ -1,12 +1,4 @@
-class Version
-  include Mongoid::Document
-  include Mongoid::Timestamps::Created
-
-  field :title
-  field :body
-
+class Version < ActiveRecord::Base
   belongs_to :article
-  belongs_to :user
-
-  index({ :article_id => 1 })
+  belongs_to :space
 end

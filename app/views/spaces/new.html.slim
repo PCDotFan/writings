@@ -13,7 +13,7 @@
             = t ('.new_space')
         li
           hr
-        - current_user.member_spaces.each do |space|
+        - current_user.spaces.each do |space|
           li.sidebar-item
             a href=(dashboard_root_path(space))
               i.icon-user
